@@ -17,8 +17,7 @@
     </div>
 
     <form method="post" action="/newAccount">
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        Email: <input type="text" name="email"><br/><br/>
+        Username: <input type="text" name="username"><br/><br/>
 
         Password: <input type="password" name="password"><br/><br/>
         <button type="submit">Create Account</button>

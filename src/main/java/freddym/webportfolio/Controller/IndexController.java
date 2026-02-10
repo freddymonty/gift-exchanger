@@ -4,6 +4,7 @@ import freddym.webportfolio.Model.User;
 import freddym.webportfolio.Model.UserBean;
 import freddym.webportfolio.Repository.UserRepository;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,31 +20,31 @@ public class IndexController {
         this.userRepository = userRepository;
     }
     @GetMapping("/")
-    public String index() {
+    public String index(Model model) {
         //create root user is not already
         if(userRepository.findUserByUsername("root") == null){
             User root = new User();
             root.setUsername("root");
             root.setPassword("1234");
             userRepository.save(root);
+
         }
+        model.addAttribute("user", userBean.getUser());
         return "homePage";
     }
 
-    @GetMapping("/login")
-    public String login(){
-        return "loginPage";
+    @GetMapping("/home")
+    public String home(Model model) {
+        //create root user is not already
+        if(userRepository.findUserByUsername("root") == null){
+            User root = new User();
+            root.setUsername("root");
+            root.setPassword("1234");
+            userRepository.save(root);
+
+        }
+        model.addAttribute("user", userBean.getUser());
+        return "homePage";
     }
 
-    @PostMapping("/login")
-    public String login(@RequestParam("username") String username, @RequestParam("password") String password){
-        // look up user
-        User user = userRepository.findUserByUsernameAndPassword(username,password);
-        if(user == null){
-            return "loginPage";
-        }
-        // set session user and return
-        userBean.setUser(user);
-        return "redirect:/";
-    }
 }

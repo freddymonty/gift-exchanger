@@ -1,3 +1,4 @@
+@param freddym.webportfolio.Model.User user
 <!doctype html>
 <html lang="en">
 <head>
@@ -11,8 +12,6 @@
     <style>
         .profile {
             font-size: 50px;
-            text-align: right;
-            justify-self: right;
             color: black;
         }
     </style>
@@ -20,7 +19,16 @@
 <body>
 <header>
     <div class="profile">
-        <a href="login" class="btn btn-success col-lg-auto" role="button">Login</a>
+        <p>Welcome ${user != null ? user.getUsername() : "!"}</p>
+
+        <i class="bi bi-person-circle">
+            @if(user == null)
+            <a href="login" class="btn btn-success col-lg-auto" role="button">Login</a>
+             @else
+            <a href="logout" class="btn btn-danger col-lg-auto" role="button">Logout</a>
+            @endif
+        </i>
+
     </div>
 </header>
 </body>
