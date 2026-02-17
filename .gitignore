@@ -34,3 +34,7 @@ build/
 
 ### JTE ###
 /jte-classes/
+
+
+###ignore application properties###
+/application.properties
