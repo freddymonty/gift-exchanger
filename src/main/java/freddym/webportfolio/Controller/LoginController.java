@@ -68,7 +68,10 @@ public class LoginController {
         userBean.setUser(newUser);
 
         return "redirect:/home";
-
     }
 
+    @GetMapping("/viewSession")
+    public String viewSessions(Model model){
+        return "viewSessionsPage";
+    }
 }
