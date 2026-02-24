@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -77,6 +78,15 @@ public class IndexController {
 
         model.addAttribute("user", userBean.getUser());
         return "homePage";
+    }
+
+    @GetMapping("viewSessions")
+    public String viewSessions(Model model){
+        User user = userBean.getUser();
+        List<Session> sessions = sessionRepository.findAllSessionsByUserId(user.getId());
+        model.addAttribute("sessions", sessions);
+        model.addAttribute("user", userBean.getUser());
+        return "viewSessionsPage";
     }
 
 }

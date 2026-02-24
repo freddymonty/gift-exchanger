@@ -23,7 +23,7 @@
 <body>
 <h1>Create Gift Exchange Session</h1>
 <form method="post" action="/createNewSession">
-    Session Name: <input type="text" name="sessionName"><br/><br/>
+    Session Name: <input type="text" name="sessionName" required><br/><br/>
 
     <h3>Participants</h3>
     <div id="participantsContainer">
