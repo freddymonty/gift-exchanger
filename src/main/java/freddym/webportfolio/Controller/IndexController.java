@@ -83,7 +83,12 @@ public class IndexController {
     @GetMapping("viewSessions")
     public String viewSessions(Model model){
         User user = userBean.getUser();
+        if (user == null) {
+            return "redirect:/login";
+        }
+
         List<Session> sessions = sessionRepository.findAllSessionsByUserId(user.getId());
+
         model.addAttribute("sessions", sessions);
         model.addAttribute("user", userBean.getUser());
         return "viewSessionsPage";

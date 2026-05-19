@@ -1,11 +1,18 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Create Gift Exchange Session</title>
+@param freddym.webportfolio.Model.User user
+
+@template.layouts.main(
+title = "Freddy's Web Portfolio",
+content = @`
+<style>
+    .createSession-main {
+        display: flex;
+        justify-content: center;
+        align-items: start;
+        height: 80vh;
+        flex-direction: column;
+        background-color: lightgray;
+    }
+</style>
     <script>
         function addParticipantField() {
             const container = document.getElementById("participantsContainer");
@@ -19,8 +26,8 @@
             container.appendChild(input);
         }
     </script>
-</head>
-<body>
+
+<div class="createSession-main">
 <h1>Create Gift Exchange Session</h1>
 <form method="post" action="/createNewSession">
     Session Name: <input type="text" name="sessionName" required><br/><br/>
@@ -34,6 +41,8 @@
     <br><br>
     <button type="submit">Create Session</button>
 </form>
+</div>
 
-</body>
-</html>
+
+`
+)
