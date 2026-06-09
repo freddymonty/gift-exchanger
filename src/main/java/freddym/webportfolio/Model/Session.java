@@ -21,10 +21,8 @@ public class Session {
     // date created month day year
     private String dateCreated;
 
-    @ElementCollection
-    @CollectionTable(name = "session_participants", joinColumns = @JoinColumn(name = "session_id"))
-    @Column(name = "participant")
-    private List<String> participants;
+    @OneToMany(mappedBy = "session", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Participant> participants;
 
     public Integer getId() {
         return id;
@@ -58,11 +56,11 @@ public class Session {
         this.sessionName = sessionName;
     }
 
-    public List<String> getParticipants() {
+    public List<Participant> getParticipants() {
         return participants;
     }
 
-    public void setParticipants(List<String> participants) {
+    public void setParticipants(List<Participant> participants) {
         this.participants = participants;
     }
 }

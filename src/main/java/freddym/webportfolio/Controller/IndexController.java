@@ -1,8 +1,10 @@
 package freddym.webportfolio.Controller;
 
+import freddym.webportfolio.Model.Participant;
 import freddym.webportfolio.Model.Session;
 import freddym.webportfolio.Model.User;
 import freddym.webportfolio.Model.UserBean;
+import freddym.webportfolio.Repository.ParticipantRepository;
 import freddym.webportfolio.Repository.SessionRepository;
 import freddym.webportfolio.Repository.UserRepository;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -23,11 +26,13 @@ public class IndexController {
     private final UserBean userBean;
     private final UserRepository userRepository;
     private final SessionRepository sessionRepository;
+    private final ParticipantRepository participantRepository;
 
-    public IndexController( UserBean userBean, UserRepository userRepository, SessionRepository sessionRepository) {
+    public IndexController(UserBean userBean, UserRepository userRepository, SessionRepository sessionRepository, ParticipantRepository participantRepository) {
         this.userBean = userBean;
         this.userRepository = userRepository;
         this.sessionRepository = sessionRepository;
+        this.participantRepository = participantRepository;
     }
     @GetMapping("/")
     public String index(Model model) {
@@ -63,18 +68,31 @@ public class IndexController {
         return "createSessionPage";
     }
 
-    @PostMapping("createNewSession")
-    public String createNewSession(@RequestParam("sessionName") String sessionName, @RequestParam List<String> participants, Model model){
+    @PostMapping("/createNewSession")
+    public String createNewSession(@RequestParam("sessionName") String sessionName, @RequestParam List<String> participantNames, @RequestParam List<String> participantPhoneNumbers, Model model){
         // create new session
         User user = userBean.getUser();
+
         Session newSession = new Session();
         Format f = new SimpleDateFormat("MM/dd/yy");
         String strDate = f.format(new Date());
         newSession.setDateCreated(strDate);
         newSession.setSessionName(sessionName);
         newSession.setUser(user.getId() == null ? userRepository.findUserByUsername(user.getUsername()) : user);
-        newSession.setParticipants(participants);
+
+        List<Participant> participants = new ArrayList<>();
         sessionRepository.save(newSession);
+        for(int i = 0; i < participantNames.size(); i++){
+            String name = participantNames.get(i);
+            String phoneNumber = participantPhoneNumbers.get(i);
+            Participant participant = new Participant();
+            participant.setName(name);
+            participant.setPhoneNumber(phoneNumber);
+            participant.setSession(newSession);
+            participantRepository.save(participant);
+        }
+       participantRepository.saveAll(participants);
+
 
         model.addAttribute("user", userBean.getUser());
         return "homePage";
