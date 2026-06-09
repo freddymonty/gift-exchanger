@@ -21,6 +21,7 @@ public class Session {
     // date created month day year
     private String dateCreated;
 
+
     @OneToMany(mappedBy = "session", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Participant> participants;
 
