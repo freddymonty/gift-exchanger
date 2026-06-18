@@ -16,81 +16,83 @@
     <style>
         body {
             overflow-x: hidden;
-            background-color: lightgray;
-
+            background-color: #F5F1E8;
+            color: #3E2723;
         }
-        header{
+
+        header {
             font-size: 50px;
-            border-bottom: black 2px solid;
-
+            border-bottom: #8B7E47 2px solid;
         }
-        /* clickable title */
-        .title, .title a{
+
+        .title,
+        .title a {
             font-size: 40px;
             list-style: none;
-            color: black;
+            color: #F5F1E8;
             text-decoration: none;
         }
-        .title:hover{
-            transform: scale(1.05);
-        }
 
-        /* profile icon */
         .profile {
             font-size: 50px;
             text-align: right;
             justify-self: right;
-            color: black;
+            color: #F5F1E8;
         }
-
-        .menu {
-            font-size: 50px;
-            text-align: center;
-            justify-self: center;
-            width: 228px;
-        }
-        .menu-item{
-            text-decoration: none;
-            justify-self: center;
-            justify-content: center;
-            text-align: center;
-        }
-
 
         .sidebar {
             width: 250px;
-            transition: all 0.3s;
-            background-color: lightgray;
-            color: black;
-            border-right: black 2px solid;
-
-            height: 100vh;
+            transition: transform 0.3s ease;
+            background-color: #2D6A4F;
+            color: #F5F1E8;
+            border-right: #8B7E47 2px solid;
+            position: fixed;
+            top: 72px;
+            left: 0;
+            height: calc(100vh - 64px);
             overflow-y: auto;
-            overflow-x:hidden;
+            overflow-x: hidden;
+            z-index: 1000;
         }
+
         .sidebar.collapsed {
-            margin-left: -250px;
+            transform: translateX(-250px);
         }
+
+        .sidebar .nav-link {
+            color: #F5F1E8;
+        }
+
+        .sidebar .nav-link:hover {
+            background-color: #52796F;
+        }
+
         .content {
-            transition: margin-left 0.3s;
+            transition: margin-left 0.3s ease;
             margin-left: 250px;
         }
+
         .content.expanded {
             margin-left: 0;
         }
-        .sidebar .nav-link {
-            color: black;
-        }
-        .sidebar .nav-link:hover {
-            background-color: lightgray;
+        .menu-item .btn-primary {
+            background-color: #C9A227;
+            border-color: #A8871E;
+            color: #3E2723;
         }
 
-        .inventory {
-            margin-top: auto;
-            padding: 20px;
-            justify-self: center;
-            text-align: center;
+        .menu-item .btn-primary:hover {
+            background-color: #D4AF37;
+            border-color: #C9A227;
+        }
 
+        .menu-item .btn-success {
+            background-color: #1B4332;
+            border-color: #143528;
+        }
+
+        .menu-item .btn-success:hover {
+            background-color: #2D6A4F;
         }
 
 
@@ -98,7 +100,8 @@
 </head>
 <body>
 
-<header class="navbar sticky-top d-flex bg-success">
+<header class="navbar sticky-top d-flex"
+        style="background-color:#1B4332;">
     <div class="container-fluid">
         <!-- Hamburger button -->
         <button class="btn btn-outline-dark me-2 " id="toggleSidebar">&#9776;</button>
@@ -112,7 +115,7 @@
     </div>
 </header>
 
-<div id="sidebar" class="position-absolute h-100 sidebar p-3">
+<div id="sidebar" class="sidebar p-3">
      <div class="menu">
           <div class="menu-item">
               <a href="/createSession" class="btn btn-primary col-lg-auto" role="button">Create Session</a>
@@ -129,35 +132,27 @@
 <script>
     const sidebar = document.getElementById("sidebar");
     const content = document.getElementById("content");
+    const toggleBtn = document.getElementById("toggleSidebar");
+
+    function setSidebarState(collapsed) {
+        sidebar.classList.toggle("collapsed", collapsed);
+        content.classList.toggle("expanded", collapsed);
+    }
 
     function handleResize() {
-        // Collapse sidebar on small screens < 576 or small devices
-        if (window.innerWidth < 576) {
-            sidebar.classList.add("collapsed");
-            content.classList.add("expanded");
-        } else {
-            sidebar.classList.remove("collapsed");
-            content.classList.remove("expanded");
-        }
+        setSidebarState(window.innerWidth < 576);
     }
 
-    // Run on load
     handleResize();
 
-    // Run on window resize
     window.addEventListener("resize", handleResize);
 
-    // Burger button toggle
-    const toggleBtn = document.getElementById("toggleSidebar");
-    const toggleBtnMobile = document.getElementById("toggleSidebarMobile");
-
-    function toggleSidebar() {
-        sidebar.classList.toggle("collapsed");
-        content.classList.toggle("expanded");
+    if (toggleBtn) {
+        toggleBtn.addEventListener("click", function () {
+            const isCollapsed = sidebar.classList.contains("collapsed");
+            setSidebarState(!isCollapsed);
+        });
     }
-
-    if (toggleBtn) toggleBtn.addEventListener("click", toggleSidebar);
-    if (toggleBtnMobile) toggleBtnMobile.addEventListener("click", toggleSidebar);
 </script>
 
 </body>
