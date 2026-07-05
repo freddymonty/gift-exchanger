@@ -8,8 +8,10 @@ import freddym.webportfolio.Repository.ParticipantRepository;
 import freddym.webportfolio.Repository.SessionRepository;
 import freddym.webportfolio.Repository.UserRepository;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -112,4 +114,62 @@ public class IndexController {
         return "viewSessionsPage";
     }
 
+    @GetMapping("/executeSession/{id}")
+    public String executeSessionPage(@PathVariable Integer id, Model model){
+        Session session = sessionRepository.findById(id).orElse(null);
+        if (session == null) {
+            return "redirect:/login";
+        }
+        model.addAttribute("user", userBean.getUser());
+        model.addAttribute("session", session);
+        return "executeSessionPage";
+    }
+
+    @PostMapping("/executeSession/{id}")
+    public String executeGiftExchange(@PathVariable Integer id, Model model){
+        Session session = sessionRepository.findById(id).orElse(null);
+
+        return "redirect:/executeSession/" + id;
+    }
+
+    @GetMapping("/editSession/{id}")
+    public String editSessionPage(@PathVariable Integer id, Model model){
+        Session session = sessionRepository.findById(id).orElse(null);
+        if (session == null) {
+            return "redirect:/login";
+        }
+        model.addAttribute("user", userBean.getUser());
+        model.addAttribute("session", session);
+        return "editSessionPage";
+    }
+
+    @Transactional
+    @PostMapping("/editSession/{id}")
+    public String updateSession(
+            @PathVariable Integer id,
+            @RequestParam String sessionName,
+            @RequestParam List<Integer> participantIds,
+            @RequestParam List<String> participantNames,
+            @RequestParam List<String> participantPhoneNumbers
+    ) {
+        Session session = sessionRepository.findById(id).orElseThrow();
+
+        session.setSessionName(sessionName);
+        sessionRepository.save(session);
+
+        // Simple approach: delete and recreate participants
+        participantRepository.deleteBySessionId(id);
+
+        for (int i = 0; i < participantNames.size(); i++) {
+            Participant participant = new Participant();
+            participant.setName(participantNames.get(i));
+            participant.setPhoneNumber(participantPhoneNumbers.get(i));
+            participant.setSession(session);
+
+            participantRepository.save(participant);
+        }
+
+        return "redirect:/executeSession/" + id;
+    }
 }
+

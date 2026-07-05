@@ -58,11 +58,13 @@ content = @`
 
                     @for(var session : sessions)
                         <li class="session-item">
+                            <a href="/executeSession/${session.getId()}" class="session-button">
                             @if(session.getSessionName() == null || session.getSessionName().isBlank())
                                 ${count}: No name ${count}
                             @else
                                 ${count}: ${session.getSessionName()}
                             @endif
+                            </a>
                         </li>
 
                         !{ count++; }
