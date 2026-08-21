@@ -44,6 +44,23 @@
                 @endif
             </h1>
 
+            <div class="mb-4">
+
+                <h3>Participant Registration Link</h3>
+
+                <p>
+                    Share this page with everyone joining the gift exchange:
+                </p>
+
+                <a href="/registerParticipant/${session.getId()}"
+                   target="_blank"
+                   class="btn btn-add">
+
+                    Open Participant Registration
+
+                </a>
+
+            </div>
             <h2>
                 Participants
             </h2>
@@ -55,7 +72,10 @@
                         @for(var participant : session.getParticipants())
                             <li class="participant-item">
                                 <strong>${participant.getName()}</strong><br>
-                                ${participant.getPhoneNumber()}
+                                @if(participant.getPhoneNumber() != null)
+                                    <br>
+                                    ${participant.getPhoneNumber()}
+                                @endif
                             </li>
                             @endfor
                     </ul>
@@ -68,12 +88,18 @@
                     Edit Session
                 </a>
 
-                <form method="post" action="/executeSession/$session.getId()}">
-                    <button type="submit" class="btn btn-execute">
-                        <i class="fas fa-play-circle"></i>
-                        Execute Gift Exchange
-                    </button>
-                </form>
+                @if(session.isExecuted())
+                    <p>
+                        This gift exchange has already been executed.
+                    </p>
+                @else
+                    <form method="post" action="/executeSession/${session.getId()}">
+                        <button type="submit" class="btn btn-execute">
+                            <i class="fas fa-play-circle"></i>
+                            Execute Gift Exchange
+                        </button>
+                    </form>
+                @endif
             </div>
         </div>
     </div>

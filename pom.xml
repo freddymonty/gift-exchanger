@@ -43,6 +43,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webmvc</artifactId>
 		</dependency>
+        <dependency>
+            <groupId>com.telnyx.sdk</groupId>
+            <artifactId>telnyx</artifactId>
+            <version>6.83.0</version>
+        </dependency>
 		<dependency>
 			<groupId>gg.jte</groupId>
 			<artifactId>jte-spring-boot-starter-3</artifactId>

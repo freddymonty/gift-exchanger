@@ -2,6 +2,8 @@ package freddym.webportfolio.Model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "participants")
 public class Participant {
@@ -15,6 +17,28 @@ public class Participant {
     @ManyToOne
     @JoinColumn(name = "session_id")
     private Session session;
+
+    @Column(name= "sms_consent", nullable=false)
+    private boolean smsConsent = false;
+
+    @Column(name="sms_consent_timestamp")
+    private LocalDateTime smsConsentTimestamp;
+
+    public boolean isSmsConsent() {
+        return smsConsent;
+    }
+
+    public void setSmsConsent(boolean smsConsent) {
+        this.smsConsent = smsConsent;
+    }
+
+    public LocalDateTime getSmsConsentTimestamp() {
+        return smsConsentTimestamp;
+    }
+
+    public void setSmsConsentTimestamp(LocalDateTime smsConsentTimestamp) {
+        this.smsConsentTimestamp = smsConsentTimestamp;
+    }
 
     public Integer getId() {
         return id;

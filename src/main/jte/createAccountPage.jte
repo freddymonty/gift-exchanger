@@ -11,6 +11,7 @@
     <title>Register</title>
 </head>
 <body>
+
 <main class="container-fluid text-center" style="background-color: #f9f9f9;">
     <div class = "mt-5 mb-5" >
         <h1>Create Account</h1>

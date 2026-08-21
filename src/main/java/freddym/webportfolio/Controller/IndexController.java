@@ -7,6 +7,7 @@ import freddym.webportfolio.Model.UserBean;
 import freddym.webportfolio.Repository.ParticipantRepository;
 import freddym.webportfolio.Repository.SessionRepository;
 import freddym.webportfolio.Repository.UserRepository;
+import freddym.webportfolio.Service.GiftExchangeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -29,12 +32,15 @@ public class IndexController {
     private final UserRepository userRepository;
     private final SessionRepository sessionRepository;
     private final ParticipantRepository participantRepository;
+    private final GiftExchangeService giftExchangeService;
 
-    public IndexController(UserBean userBean, UserRepository userRepository, SessionRepository sessionRepository, ParticipantRepository participantRepository) {
+
+    public IndexController(UserBean userBean, UserRepository userRepository, SessionRepository sessionRepository, ParticipantRepository participantRepository, GiftExchangeService giftExchangeService) {
         this.userBean = userBean;
         this.userRepository = userRepository;
         this.sessionRepository = sessionRepository;
         this.participantRepository = participantRepository;
+        this.giftExchangeService = giftExchangeService;
     }
     @GetMapping("/")
     public String index(Model model) {
@@ -71,7 +77,7 @@ public class IndexController {
     }
 
     @PostMapping("/createNewSession")
-    public String createNewSession(@RequestParam("sessionName") String sessionName, @RequestParam List<String> participantNames, @RequestParam List<String> participantPhoneNumbers, Model model){
+    public String createNewSession(@RequestParam("sessionName") String sessionName){
         // create new session
         User user = userBean.getUser();
 
@@ -82,22 +88,10 @@ public class IndexController {
         newSession.setSessionName(sessionName);
         newSession.setUser(user.getId() == null ? userRepository.findUserByUsername(user.getUsername()) : user);
 
-        List<Participant> participants = new ArrayList<>();
-        sessionRepository.save(newSession);
-        for(int i = 0; i < participantNames.size(); i++){
-            String name = participantNames.get(i);
-            String phoneNumber = participantPhoneNumbers.get(i);
-            Participant participant = new Participant();
-            participant.setName(name);
-            participant.setPhoneNumber(phoneNumber);
-            participant.setSession(newSession);
-            participantRepository.save(participant);
-        }
-       participantRepository.saveAll(participants);
+        newSession.setExecuted(false);
+        Session savedSession = sessionRepository.save(newSession);
 
-
-        model.addAttribute("user", userBean.getUser());
-        return "homePage";
+        return "redirect:/executeSession/" + savedSession.getId();
     }
 
     @GetMapping("viewSessions")
@@ -125,12 +119,6 @@ public class IndexController {
         return "executeSessionPage";
     }
 
-    @PostMapping("/executeSession/{id}")
-    public String executeGiftExchange(@PathVariable Integer id, Model model){
-        Session session = sessionRepository.findById(id).orElse(null);
-
-        return "redirect:/executeSession/" + id;
-    }
 
     @GetMapping("/editSession/{id}")
     public String editSessionPage(@PathVariable Integer id, Model model){
@@ -171,5 +159,67 @@ public class IndexController {
 
         return "redirect:/executeSession/" + id;
     }
+
+    @PostMapping("/executeSession/{id}")
+    public String executeSession(@PathVariable Integer id, RedirectAttributes redirectAttributes) throws IllegalAccessException {
+
+        try {
+            giftExchangeService.executeGiftExchange(id);
+            redirectAttributes.addFlashAttribute("success", "Gift exchange executed successfully!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+        }
+//        return "redirect:/executeSession/" + id;
+        return "homePage";
+        }
+
+    @GetMapping("/registerParticipant/{id}")
+    public String registerParticipantPage(@PathVariable Integer id, Model model){
+        Session session = sessionRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Gift exchange session not found."));
+        model.addAttribute("session", session);
+        return "participantRegistrationPage";
+    }
+
+    @Transactional
+    @PostMapping("/registerParticipant/{id}")
+    public String registerParticipant(@PathVariable Integer id, @RequestParam String name, @RequestParam(required = false, defaultValue ="") String phoneNumber, @RequestParam(required = false, defaultValue = "false") boolean smsConsent, RedirectAttributes redirectAttributes){
+        Session session = sessionRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Gift exchange session not found."));
+
+        if(session.isExecuted()){
+            redirectAttributes.addFlashAttribute("error", "Gift exchange session already executed!");
+
+            return "redirect:/registerParticipant/" + id;
+        }
+
+        if(smsConsent && phoneNumber == null || phoneNumber.isBlank()){
+            redirectAttributes.addFlashAttribute("error", "Please enter a valid phone number if you would like to receive SMS notifications.");
+            return "redirect:/registerParticipant/" + id;
+        }
+
+        Participant participant = new Participant();
+        participant.setName(name.trim());
+        participant.setSession(session);
+
+        if(smsConsent){
+            participant.setPhoneNumber(phoneNumber.trim());
+
+            participant.setSmsConsent(true);
+
+            participant.setSmsConsentTimestamp(LocalDateTime.now());
+
+        } else {
+            participant.setPhoneNumber(null);
+            participant.setSmsConsent(false);
+            participant.setSmsConsentTimestamp(null);
+        }
+
+        participantRepository.save(participant);
+
+        redirectAttributes.addFlashAttribute("success", "Participant registered successfully!");
+
+        return "redirect:/registerParticipant/" + id;
+
+    }
 }
+
 

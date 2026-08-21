@@ -60,76 +60,50 @@ content = @`
         background-color: #1B4332;
     }
 </style>
-    <script>
-        function addParticipantField() {
-            const container = document.getElementById("participantsContainer");
+<%--    <script>--%>
+<%--        function addParticipantField() {--%>
+<%--            const container = document.getElementById("participantsContainer");--%>
 
-            const row = document.createElement("div");
-            row.className = "participant-row";
+<%--            const row = document.createElement("div");--%>
+<%--            row.className = "participant-row";--%>
 
-            row.innerHTML = '' +
-                '<input class="form-control" type="text" name="participantNames" placeholder="Name" required>' +
-                '<input class="form-control" type="tel" name="participantPhoneNumbers" placeholder="Phone Number" required>';
-            container.appendChild(row);
-                        }
+<%--            row.innerHTML = '' +--%>
+<%--                '<input class="form-control" type="text" name="participantNames" placeholder="Name" required>' +--%>
+<%--                '<input class="form-control" type="tel" name="participantPhoneNumbers" placeholder="Phone Number" required>';--%>
+<%--            container.appendChild(row);--%>
+<%--                        }--%>
 
-        function removeParticipantField() {
-            const container = document.getElementById("participantsContainer");
-            const rows = container.getElementsByClassName("participant-row");
-            if(rows.length > 1) {
-                container.removeChild(rows[rows.length - 1]);
-            }
-        }
-    </script>
+<%--        function removeParticipantField() {--%>
+<%--            const container = document.getElementById("participantsContainer");--%>
+<%--            const rows = container.getElementsByClassName("participant-row");--%>
+<%--            if(rows.length > 1) {--%>
+<%--                container.removeChild(rows[rows.length - 1]);--%>
+<%--            }--%>
+<%--        }--%>
+<%--    </script>--%>
 
     <div class="createSession-main">
         <div class="session-card">
 
             <h1>Create Gift Exchange Session</h1>
 
+            <p>
+                Create your gift exchange session and then share the registration link with everyone joining the session.
+            </p>
+
             <form method="post" action="/createNewSession">
 
                 <div class="mb-4">
                     <label class="form-label">Session Name</label>
-                    <input class="form-control"
-                           type="text"
-                           name="sessionName"
-                           required>
-                </div>
-
-                <h3>Participants</h3>
-
-                <div id="participantsContainer">
-                    <div class="participant-row">
+                    <label>
                         <input class="form-control"
                                type="text"
-                               name="participantNames"
-                               placeholder="Name"
-                               required>
+                               name="sessionName"
+                               placeholder="Session Name" required>
+                    </label>
 
-                        <input class="form-control"
-                               type="tel"
-                               name="participantPhoneNumbers"
-                               placeholder="Phone Number"
-                               required>
-                    </div>
                 </div>
 
-                <div class="mt-3 d-flex gap-2">
-                    <button type="button"
-                            class="btn btn-add"
-                            onclick="addParticipantField()">
-                        <i class="bi bi-plus-circle"></i>
-                        Add Participant
-                    </button>
-
-                    <button type="button"
-                            class="btn btn-danger"
-                            onclick="removeParticipantField()">
-                        <i class="bi bi-dash-circle"></i>
-                        Remove Participant
-                    </button>
-                </div>
 
                 <div class="mt-4">
                     <button type="submit"
@@ -140,9 +114,14 @@ content = @`
 
             </form>
 
+            <div class="info-box">
+                <strong>Next Steps:</strong>
+                <p>
+                    After creating this session, you will receive a participant registration link. Each participant enters their own information and chooses whether to receive their gift exchange assignment by SMS.
+                </p>
+            </div>
         </div>
     </div>
-
 
 `
 )
