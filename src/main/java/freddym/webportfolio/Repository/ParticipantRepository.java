@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ParticipantRepository extends JpaRepository<Participant, Integer> {
 
@@ -12,4 +13,6 @@ List<Participant> findBySessionId(Integer sessionId);
 
     @Transactional
     void deleteBySessionId(Integer id);
+
+
 }

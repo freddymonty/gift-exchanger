@@ -16,12 +16,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import java.time.LocalDateTime;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -135,30 +133,29 @@ public class IndexController {
     @PostMapping("/editSession/{id}")
     public String updateSession(
             @PathVariable Integer id,
-            @RequestParam String sessionName,
-            @RequestParam List<Integer> participantIds,
-            @RequestParam List<String> participantNames,
-            @RequestParam List<String> participantPhoneNumbers
-    ) {
+            @RequestParam String sessionName) {
         Session session = sessionRepository.findById(id).orElseThrow();
 
         session.setSessionName(sessionName);
         sessionRepository.save(session);
 
-        // Simple approach: delete and recreate participants
-        participantRepository.deleteBySessionId(id);
-
-        for (int i = 0; i < participantNames.size(); i++) {
-            Participant participant = new Participant();
-            participant.setName(participantNames.get(i));
-            participant.setPhoneNumber(participantPhoneNumbers.get(i));
-            participant.setSession(session);
-
-            participantRepository.save(participant);
-        }
 
         return "redirect:/executeSession/" + id;
     }
+
+    @Transactional
+    @PostMapping("/removeParticipant/{sessionId}/{participantId}")
+    public String removeParticipant(@PathVariable Integer sessionId, @PathVariable Integer participantId){
+        Participant participant = participantRepository.findById(participantId).orElseThrow();
+
+        if(!participant.getSession().getId().equals(sessionId)){
+            throw new IllegalArgumentException("Participant does not belong to the specified session.");
+        }
+
+        participantRepository.delete(participant);
+        return "redirect:/editSession/" + sessionId;
+    }
+
 
     @PostMapping("/executeSession/{id}")
     public String executeSession(@PathVariable Integer id, RedirectAttributes redirectAttributes) throws IllegalAccessException {
@@ -169,8 +166,8 @@ public class IndexController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
-//        return "redirect:/executeSession/" + id;
-        return "homePage";
+
+        return "redirect:/home";
         }
 
     @GetMapping("/registerParticipant/{id}")
@@ -182,32 +179,67 @@ public class IndexController {
 
     @Transactional
     @PostMapping("/registerParticipant/{id}")
-    public String registerParticipant(@PathVariable Integer id, @RequestParam String name, @RequestParam(required = false, defaultValue ="") String phoneNumber, @RequestParam(required = false, defaultValue = "false") boolean smsConsent, RedirectAttributes redirectAttributes){
-        Session session = sessionRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Gift exchange session not found."));
+    public String registerParticipant(
+            @PathVariable Integer id,
+            @RequestParam String name,
+            @RequestParam(
+                    required = false,
+                    defaultValue = ""
+            ) String phoneNumber,
+            @RequestParam(
+                    required = false,
+                    defaultValue = "false"
+            ) boolean smsConsent,
+            RedirectAttributes redirectAttributes
+    ) {
 
-        if(session.isExecuted()){
-            redirectAttributes.addFlashAttribute("error", "Gift exchange session already executed!");
+        Session session = sessionRepository.findById(id)
+                .orElseThrow(() ->
+                        new IllegalArgumentException(
+                                "Gift exchange session not found."
+                        )
+                );
+
+        if (session.isExecuted()) {
+            redirectAttributes.addFlashAttribute(
+                    "error",
+                    "Registration for this session is closed."
+            );
 
             return "redirect:/registerParticipant/" + id;
         }
 
-        if(smsConsent && phoneNumber == null || phoneNumber.isBlank()){
-            redirectAttributes.addFlashAttribute("error", "Please enter a valid phone number if you would like to receive SMS notifications.");
+        if (smsConsent &&
+                (phoneNumber == null || phoneNumber.isBlank())) {
+
+            redirectAttributes.addFlashAttribute(
+                    "error",
+                    "Please enter a mobile number if you would like SMS notifications."
+            );
+
             return "redirect:/registerParticipant/" + id;
         }
 
         Participant participant = new Participant();
+
         participant.setName(name.trim());
         participant.setSession(session);
 
-        if(smsConsent){
-            participant.setPhoneNumber(phoneNumber.trim());
+
+        if (smsConsent) {
+
+            participant.setPhoneNumber(
+                    phoneNumber.trim()
+            );
 
             participant.setSmsConsent(true);
 
-            participant.setSmsConsentTimestamp(LocalDateTime.now());
+            participant.setSmsConsentTimestamp(
+                    LocalDateTime.now()
+            );
 
         } else {
+
             participant.setPhoneNumber(null);
             participant.setSmsConsent(false);
             participant.setSmsConsentTimestamp(null);
@@ -215,11 +247,26 @@ public class IndexController {
 
         participantRepository.save(participant);
 
-        redirectAttributes.addFlashAttribute("success", "Participant registered successfully!");
+        redirectAttributes.addFlashAttribute(
+                "success",
+                "You have successfully joined the gift exchange."
+        );
 
+        // Send participant to their private edit page
         return "redirect:/registerParticipant/" + id;
-
     }
+
+    @GetMapping("/PrivacyPolicy")
+    public String privacyPolicyPage() {
+        return "privacyPolicyPage";
+    }
+
+    @GetMapping("/TermsOfService")
+    public String termsOfServicePage() {
+        return "termsOfServicePage";
+    }
+
+
 }
 
 

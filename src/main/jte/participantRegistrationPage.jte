@@ -109,7 +109,7 @@ content = @`
                     <input class="form-control"
                            type="tel"
                            name="phoneNumber"
-                           placeholder="+1 555 123 4567">
+                           placeholder="+1 888 555 5555">
 
                     <small class="text-muted">
                         Optional. Provide your mobile number if you would
@@ -158,12 +158,12 @@ content = @`
 
                     <div class="policy-links">
 
-                        <a href="/privacy"
+                        <a href="/PrivacyPolicy"
                            target="_blank">
                             Privacy Policy
                         </a>
 
-                        <a href="/terms"
+                        <a href="/TermsOfService"
                            target="_blank">
                             Terms of Service
                         </a>
