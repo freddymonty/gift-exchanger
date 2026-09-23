@@ -1,4 +1,9 @@
 @param freddym.webportfolio.Model.Session session
+@param String smsBrandName
+@param String smsFromNumber
+@param String success = null
+@param String warning = null
+@param String error = null
 
 @template.layouts.main(
 title = "Join Gift Exchange",
@@ -79,6 +84,18 @@ content = @`
                 ${session.getSessionName()}
             </h3>
 
+            @if(success != null)
+                <div class="alert alert-success">${success}</div>
+            @endif
+
+            @if(warning != null)
+                <div class="alert alert-warning">${warning}</div>
+            @endif
+
+            @if(error != null)
+                <div class="alert alert-danger">${error}</div>
+            @endif
+
             <p>
                 Enter your information below to join this gift exchange.
             </p>
@@ -112,8 +129,8 @@ content = @`
                            placeholder="+1 888 555 5555">
 
                     <small class="text-muted">
-                        Optional. Provide your mobile number if you would
-                        like to receive your gift exchange assignment by SMS.
+                        Optional. Provide your mobile number only if you would
+                        like to receive transactional gift-exchange messages by SMS.
                     </small>
 
                 </div>
@@ -131,8 +148,10 @@ content = @`
                         <label class="form-check-label"
                                for="smsConsent">
 
-                            I agree to receive SMS gift exchange
-                            notifications from Freddy's Gift Exchange.
+                            I agree to receive transactional SMS messages from
+                            ${smsBrandName} at the mobile number provided, sent from
+                            ${smsFromNumber}. Messages include an opt-in confirmation
+                            and my gift assignment.
 
                         </label>
 
@@ -140,11 +159,11 @@ content = @`
 
                     <div class="sms-disclaimer">
 
-                        By providing your phone number and checking this box,
-                        you agree to receive SMS gift exchange notifications
-                        from Freddy's Gift Exchange.
+                        By checking this optional box, you consent to receive up to
+                        2 messages per gift-exchange session from ${smsBrandName}.
+                        Consent is not a condition of purchase. We do not send
+                        marketing or promotional messages.
 
-                        Message frequency may vary.
                         Standard message and data rates may apply.
 
                         Reply STOP to opt out.

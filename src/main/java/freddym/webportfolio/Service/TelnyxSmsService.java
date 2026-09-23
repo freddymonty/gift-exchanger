@@ -33,5 +33,8 @@ public class TelnyxSmsService {
         Map<String, String> requestBody = Map.of("from", fromNumber, "to", to, "text", text);
         restClient.post().uri("/messages").body(requestBody).retrieve().toBodilessEntity();
     }
-}
 
+    public String getFromNumber() {
+        return fromNumber;
+    }
+}

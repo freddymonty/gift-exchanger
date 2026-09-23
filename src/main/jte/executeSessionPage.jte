@@ -135,7 +135,7 @@
 
             </a>
 
-            @if(session.isExecuted())
+            @if(session.isDeliveryComplete())
 
                 <div class="alert alert-success mb-0">
                     <i class="bi bi-check-circle-fill"></i>
@@ -143,24 +143,42 @@
                 </div>
 
             @else
-                @if(session.getParticipants().stream().anyMatch(participant -> !participant.isSmsConsent()))
-                    @for(var participant : session.getParticipants())
-                        @if(!participant.isSmsConsent())
-                            <div class="alert alert-warning mb-0">
-                                <i class="bi bi-exclamation-circle"></i>
-                                Participant ${participant.getName()} has not opted in for SMS notifications.
-                            </div>
-                        @endif
-                    @endfor
-                @else
-                    <form method="post"
-                          action="/executeSession/${session.getId()}">
+                @if(session.isExecuted())
 
-                        <button type="submit" class="btn btn-execute">
-                            <i class="bi bi-play-circle-fill"></i>
-                            Execute Gift Exchange
-                        </button>
-                    </form>
+                <div class="alert alert-warning mb-0">
+                    <i class="bi bi-exclamation-circle"></i>
+                    Some assignments are still pending delivery. Retry to send only the remaining messages.
+                </div>
+
+                <form method="post"
+                      action="/executeSession/${session.getId()}">
+
+                    <button type="submit" class="btn btn-execute">
+                        <i class="bi bi-arrow-repeat"></i>
+                        Retry Pending Messages
+                    </button>
+                </form>
+
+                @else
+                    @if(session.getParticipants().stream().anyMatch(participant -> !participant.isSmsConsent()))
+                        @for(var participant : session.getParticipants())
+                            @if(!participant.isSmsConsent())
+                                <div class="alert alert-warning mb-0">
+                                    <i class="bi bi-exclamation-circle"></i>
+                                    Participant ${participant.getName()} has not opted in for SMS notifications.
+                                </div>
+                            @endif
+                        @endfor
+                    @else
+                        <form method="post"
+                              action="/executeSession/${session.getId()}">
+
+                            <button type="submit" class="btn btn-execute">
+                                <i class="bi bi-play-circle-fill"></i>
+                                Execute Gift Exchange
+                            </button>
+                        </form>
+                    @endif
                 @endif
             @endif
 

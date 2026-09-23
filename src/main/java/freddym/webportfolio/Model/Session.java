@@ -74,4 +74,17 @@ public class Session {
     public void setParticipants(List<Participant> participants) {
         this.participants = participants;
     }
+
+    @Transient
+    public boolean isDeliveryComplete() {
+        if (!executed || participants == null || participants.isEmpty()) {
+            return false;
+        }
+
+        return participants.stream().allMatch(participant ->
+                participant.isAssignmentDelivered()
+                        || (participant.getAssignedRecipientName() == null
+                        && participant.getPhoneNumber() == null)
+        );
+    }
 }

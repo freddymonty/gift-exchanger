@@ -8,14 +8,20 @@ import freddym.webportfolio.Repository.ParticipantRepository;
 import freddym.webportfolio.Repository.SessionRepository;
 import freddym.webportfolio.Repository.UserRepository;
 import freddym.webportfolio.Service.GiftExchangeService;
+import freddym.webportfolio.Service.SmsNotificationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.client.RestClientException;
 import java.time.LocalDateTime;
 
 import java.text.Format;
@@ -26,19 +32,30 @@ import java.util.List;
 @Controller
 public class IndexController {
 
+    private static final Logger logger = LoggerFactory.getLogger(IndexController.class);
+
     private final UserBean userBean;
     private final UserRepository userRepository;
     private final SessionRepository sessionRepository;
     private final ParticipantRepository participantRepository;
     private final GiftExchangeService giftExchangeService;
+    private final SmsNotificationService smsNotificationService;
 
 
-    public IndexController(UserBean userBean, UserRepository userRepository, SessionRepository sessionRepository, ParticipantRepository participantRepository, GiftExchangeService giftExchangeService) {
+    public IndexController(
+            UserBean userBean,
+            UserRepository userRepository,
+            SessionRepository sessionRepository,
+            ParticipantRepository participantRepository,
+            GiftExchangeService giftExchangeService,
+            SmsNotificationService smsNotificationService
+    ) {
         this.userBean = userBean;
         this.userRepository = userRepository;
         this.sessionRepository = sessionRepository;
         this.participantRepository = participantRepository;
         this.giftExchangeService = giftExchangeService;
+        this.smsNotificationService = smsNotificationService;
     }
     @GetMapping("/")
     public String index(Model model) {
@@ -108,10 +125,7 @@ public class IndexController {
 
     @GetMapping("/executeSession/{id}")
     public String executeSessionPage(@PathVariable Integer id, Model model){
-        Session session = sessionRepository.findById(id).orElse(null);
-        if (session == null) {
-            return "redirect:/login";
-        }
+        Session session = requireOwnedSession(id);
         model.addAttribute("user", userBean.getUser());
         model.addAttribute("session", session);
         return "executeSessionPage";
@@ -120,10 +134,7 @@ public class IndexController {
 
     @GetMapping("/editSession/{id}")
     public String editSessionPage(@PathVariable Integer id, Model model){
-        Session session = sessionRepository.findById(id).orElse(null);
-        if (session == null) {
-            return "redirect:/login";
-        }
+        Session session = requireOwnedSession(id);
         model.addAttribute("user", userBean.getUser());
         model.addAttribute("session", session);
         return "editSessionPage";
@@ -134,7 +145,7 @@ public class IndexController {
     public String updateSession(
             @PathVariable Integer id,
             @RequestParam String sessionName) {
-        Session session = sessionRepository.findById(id).orElseThrow();
+        Session session = requireOwnedSession(id);
 
         session.setSessionName(sessionName);
         sessionRepository.save(session);
@@ -146,6 +157,7 @@ public class IndexController {
     @Transactional
     @PostMapping("/removeParticipant/{sessionId}/{participantId}")
     public String removeParticipant(@PathVariable Integer sessionId, @PathVariable Integer participantId){
+        requireOwnedSession(sessionId);
         Participant participant = participantRepository.findById(participantId).orElseThrow();
 
         if(!participant.getSession().getId().equals(sessionId)){
@@ -159,25 +171,45 @@ public class IndexController {
 
     @PostMapping("/executeSession/{id}")
     public String executeSession(@PathVariable Integer id, RedirectAttributes redirectAttributes) throws IllegalAccessException {
+        User owner = requireLoggedInUser();
+        requireOwnedSession(id, owner);
 
         try {
-            giftExchangeService.executeGiftExchange(id);
+            giftExchangeService.executeGiftExchange(id, owner.getId());
             redirectAttributes.addFlashAttribute("success", "Gift exchange executed successfully!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
 
-        return "redirect:/home";
+        return "redirect:/executeSession/" + id;
         }
+
+    private User requireLoggedInUser() {
+        User user = userBean.getUser();
+        if (user == null || user.getId() == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Login required.");
+        }
+        return user;
+    }
+
+    private Session requireOwnedSession(Integer sessionId) {
+        return requireOwnedSession(sessionId, requireLoggedInUser());
+    }
+
+    private Session requireOwnedSession(Integer sessionId, User owner) {
+        return sessionRepository.findByIdAndUserId(sessionId, owner.getId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
 
     @GetMapping("/registerParticipant/{id}")
     public String registerParticipantPage(@PathVariable Integer id, Model model){
         Session session = sessionRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Gift exchange session not found."));
         model.addAttribute("session", session);
+        model.addAttribute("smsBrandName", smsNotificationService.getBrandName());
+        model.addAttribute("smsFromNumber", smsNotificationService.getFromNumber());
         return "participantRegistrationPage";
     }
 
-    @Transactional
     @PostMapping("/registerParticipant/{id}")
     public String registerParticipant(
             @PathVariable Integer id,
@@ -245,7 +277,21 @@ public class IndexController {
             participant.setSmsConsentTimestamp(null);
         }
 
-        participantRepository.save(participant);
+        participantRepository.saveAndFlush(participant);
+
+        if (smsConsent) {
+            try {
+                smsNotificationService.sendOptInConfirmation(participant.getPhoneNumber());
+            } catch (RestClientException exception) {
+                logger.warn("Participant {} registered, but the SMS confirmation could not be sent.",
+                        participant.getId(), exception);
+                redirectAttributes.addFlashAttribute(
+                        "warning",
+                        "You joined successfully, but we could not send the confirmation text. "
+                                + "Please verify your mobile number or contact support."
+                );
+            }
+        }
 
         redirectAttributes.addFlashAttribute(
                 "success",
@@ -268,5 +314,3 @@ public class IndexController {
 
 
 }
-
-

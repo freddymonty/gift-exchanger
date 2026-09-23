@@ -13,6 +13,8 @@ public class Participant {
 
     private String name;
     private String phoneNumber;
+    private String assignedRecipientName;
+    private Boolean assignmentDelivered = false;
 
     @ManyToOne
     @JoinColumn(name = "session_id")
@@ -62,6 +64,22 @@ public class Participant {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getAssignedRecipientName() {
+        return assignedRecipientName;
+    }
+
+    public void setAssignedRecipientName(String assignedRecipientName) {
+        this.assignedRecipientName = assignedRecipientName;
+    }
+
+    public boolean isAssignmentDelivered() {
+        return Boolean.TRUE.equals(assignmentDelivered);
+    }
+
+    public void setAssignmentDelivered(boolean assignmentDelivered) {
+        this.assignmentDelivered = assignmentDelivered;
     }
 
     public Session getSession() {

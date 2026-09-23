@@ -39,7 +39,7 @@
 <h2>AGREEMENT TO OUR LEGAL TERMS</h2>
 
 <a id="_6aa3gkhykvst"></a>
-<p>We are __________ ("<strong>Company</strong>," "<strong>we</strong>," "<strong>us</strong>," "<strong>our</strong>").</p>
+<p>We are Freddy's Gift Exchange ("<strong>Company</strong>," "<strong>we</strong>," "<strong>us</strong>," "<strong>our</strong>").</p>
 
 
 <p>We operate the website <a target="_blank" href="https://www.freddymcode.com">https://www.freddymcode.com</a> (the "<strong>Site</strong>"), as well as any other related products and services that refer or link to these legal terms (the "<strong>Legal Terms</strong>") (collectively, the "<strong>Services</strong>").</p>
@@ -47,9 +47,9 @@
 <p>A social platform where users can create group events to randomize names and exchange gifts amongst friends.</p>
 
 
-<p>You can contact us by email at __________ or by mail to __________, __________, __________.</p>
+<p>You can contact us by email at <a href="mailto:support@freddymcode.com">support@freddymcode.com</a>.</p>
 
-<p>These Legal Terms constitute a legally binding agreement made between you, whether personally or on behalf of an entity ("<strong>you</strong>"), and __________, concerning your access to and use of the Services. You agree that by accessing the Services, you have read, understood, and agreed to be bound by all of these Legal Terms. IF YOU DO NOT AGREE WITH ALL OF THESE LEGAL TERMS, THEN YOU ARE EXPRESSLY PROHIBITED FROM USING THE SERVICES AND YOU MUST DISCONTINUE USE IMMEDIATELY.</p>
+<p>These Legal Terms constitute a legally binding agreement made between you, whether personally or on behalf of an entity ("<strong>you</strong>"), and Freddy's Gift Exchange, concerning your access to and use of the Services. You agree that by accessing the Services, you have read, understood, and agreed to be bound by all of these Legal Terms. IF YOU DO NOT AGREE WITH ALL OF THESE LEGAL TERMS, THEN YOU ARE EXPRESSLY PROHIBITED FROM USING THE SERVICES AND YOU MUST DISCONTINUE USE IMMEDIATELY.</p>
 
 <p>Supplemental terms and conditions or documents that may be posted on the Services from time to time are hereby expressly incorporated herein by reference. We reserve the right, in our sole discretion, to make changes or modifications to these Legal Terms from time to time. We will alert you about any changes by updating the "Last updated" date of these Legal Terms, and you waive any right to receive specific notice of each such change. It is your responsibility to periodically review these Legal Terms to stay informed of updates. You will be subject to, and will be deemed to have been made aware of and to have accepted, the changes in any revised Legal Terms by your continued use of the Services after the date such revised Legal Terms are posted.</p>
 
@@ -167,7 +167,7 @@ translated, transmitted, distributed, sold, licensed, or otherwise exploited
 for any commercial purpose whatsoever, without our express prior written
 permission.</p>
 
-<p>If you wish to make any use of the Services, Content, or Marks other than as set out in this section or elsewhere in our Legal Terms, please address your request to: __________. If we ever grant you the permission to post, reproduce, or publicly display any part of our Services or Content, you must identify us as the owners or licensors of the Services, Content, or Marks and ensure that any copyright or proprietary notice appears or is visible on posting, reproducing, or displaying our Content.</p>
+<p>If you wish to make any use of the Services, Content, or Marks other than as set out in this section or elsewhere in our Legal Terms, please email <a href="mailto:support@freddymcode.com">support@freddymcode.com</a>. If we ever grant you the permission to post, reproduce, or publicly display any part of our Services or Content, you must identify us as the owners or licensors of the Services, Content, or Marks and ensure that any copyright or proprietary notice appears or is visible on posting, reproducing, or displaying our Content.</p>
 
 
 
@@ -378,15 +378,17 @@ loss or corruption of such data.</p>
 <h2 id="sms">21. SMS TEXT MESSAGING</h2>
 
 <h3>Program Description</h3>
-<p>By opting into any Telnyx text messaging program, you expressly consent to receive text messages (SMS) to your mobile number. Telnyx text messages may include: marketing communications.</p>
+<p>Freddy's Gift Exchange offers an optional transactional SMS program. If you provide a mobile number and affirmatively check the SMS consent box, you agree to receive an opt-in confirmation and your gift-exchange assignment from the toll-free number displayed at the point of consent. We do not send marketing or promotional messages through this program. Consent is not a condition of purchase.</p>
+
+<h3>Message Frequency</h3>
+<p>Message frequency is up to two messages per gift-exchange session: one opt-in confirmation and one gift-assignment message. Additional messages may be sent only when reasonably necessary to respond to a support request or retry a failed delivery.</p>
 
 <h3>Opting Out</h3>
-<p>If at any time you wish to stop receiving SMS messages from us, simply reply to the text with "STOP." You may receive an SMS message confirming your opt out. After this, you will no longer receive SMS messages from us. If you want to join again, please sign up as you did the first time and we will start sending SMS messages to you again.</p>
+<p>You may opt out at any time by replying STOP. You may receive a confirmation of your opt-out request. After opting out, no further gift-exchange messages will be sent unless you separately opt in again.</p>
 <h3>Message and Data Rates</h3>
 <p>Please be aware that message and data rates may apply to any SMS messages sent or received. The rates are determined by your carrier and the specifics of your mobile plan. Carriers are not liable for delayed or undelivered messages. If you have any questions about your text plan or data plan, contact your wireless provider.</p>
 <h3>Support</h3>
-<p>If you have any questions or need assistance regarding our SMS communications, please reply with the keyword HELP. You can also email us at __________. If you have any questions regarding privacy, please read our Privacy Policy: <a target="_blank" href="http://www.freddymcode.com/PrivacyPolicy">http://www.freddymcode.com/PrivacyPolicy</a>. 
-</p>
+<p>Reply HELP for assistance, visit <a target="_blank" href="https://www.freddymcode.com">https://www.freddymcode.com</a>, or email <a href="mailto:support@freddymcode.com">support@freddymcode.com</a>. For information about how we handle mobile information, review our Privacy Policy: <a target="_blank" href="https://www.freddymcode.com/PrivacyPolicy">https://www.freddymcode.com/PrivacyPolicy</a>.</p>
 
 
 <h2 id="california">22. CALIFORNIA USERS AND RESIDENTS</h2>
@@ -405,7 +407,9 @@ Department of Consumer Affairs in writing at 1625 North Market Blvd., Suite N
 <h2 id="contact">24. CONTACT US</h2>
 <p>In order to resolve a complaint regarding the Services or to receive further information regarding use of the Services, please contact us at:</p>
 
-<p><strong>__________</strong></p>
+<p><strong>Freddy's Gift Exchange</strong><br>
+<a href="mailto:support@freddymcode.com">support@freddymcode.com</a><br>
+<a href="https://www.freddymcode.com">https://www.freddymcode.com</a></p>
 
 
 
