@@ -47,7 +47,7 @@
 <p>A social platform where users can create group events to randomize names and exchange gifts amongst friends.</p>
 
 
-<p>You can contact us by email at <a href="mailto:support@freddymcode.com">support@freddymcode.com</a>.</p>
+<p>You can contact us by email at <a href="mailto:freddymontanojr@gmail.com">freddymontanojr@gmail.com</a>.</p>
 
 <p>These Legal Terms constitute a legally binding agreement made between you, whether personally or on behalf of an entity ("<strong>you</strong>"), and Freddy's Gift Exchange, concerning your access to and use of the Services. You agree that by accessing the Services, you have read, understood, and agreed to be bound by all of these Legal Terms. IF YOU DO NOT AGREE WITH ALL OF THESE LEGAL TERMS, THEN YOU ARE EXPRESSLY PROHIBITED FROM USING THE SERVICES AND YOU MUST DISCONTINUE USE IMMEDIATELY.</p>
 
@@ -167,7 +167,7 @@ translated, transmitted, distributed, sold, licensed, or otherwise exploited
 for any commercial purpose whatsoever, without our express prior written
 permission.</p>
 
-<p>If you wish to make any use of the Services, Content, or Marks other than as set out in this section or elsewhere in our Legal Terms, please email <a href="mailto:support@freddymcode.com">support@freddymcode.com</a>. If we ever grant you the permission to post, reproduce, or publicly display any part of our Services or Content, you must identify us as the owners or licensors of the Services, Content, or Marks and ensure that any copyright or proprietary notice appears or is visible on posting, reproducing, or displaying our Content.</p>
+<p>If you wish to make any use of the Services, Content, or Marks other than as set out in this section or elsewhere in our Legal Terms, please email <a href="mailto:freddymontanojr@gmail.com">freddymontanojr@gmail.com</a>. If we ever grant you the permission to post, reproduce, or publicly display any part of our Services or Content, you must identify us as the owners or licensors of the Services, Content, or Marks and ensure that any copyright or proprietary notice appears or is visible on posting, reproducing, or displaying our Content.</p>
 
 
 
@@ -388,7 +388,7 @@ loss or corruption of such data.</p>
 <h3>Message and Data Rates</h3>
 <p>Please be aware that message and data rates may apply to any SMS messages sent or received. The rates are determined by your carrier and the specifics of your mobile plan. Carriers are not liable for delayed or undelivered messages. If you have any questions about your text plan or data plan, contact your wireless provider.</p>
 <h3>Support</h3>
-<p>Reply HELP for assistance, visit <a target="_blank" href="https://www.freddymcode.com">https://www.freddymcode.com</a>, or email <a href="mailto:support@freddymcode.com">support@freddymcode.com</a>. For information about how we handle mobile information, review our Privacy Policy: <a target="_blank" href="https://www.freddymcode.com/PrivacyPolicy">https://www.freddymcode.com/PrivacyPolicy</a>.</p>
+<p>Reply HELP for assistance, visit <a target="_blank" href="https://www.freddymcode.com">https://www.freddymcode.com</a>, or email <a href="mailto:freddymontanojr@gmail.com">freddymontanojr@gmail.com</a>. For information about how we handle mobile information, review our Privacy Policy: <a target="_blank" href="https://www.freddymcode.com/PrivacyPolicy">https://www.freddymcode.com/PrivacyPolicy</a>.</p>
 
 
 <h2 id="california">22. CALIFORNIA USERS AND RESIDENTS</h2>
@@ -408,7 +408,7 @@ Department of Consumer Affairs in writing at 1625 North Market Blvd., Suite N
 <p>In order to resolve a complaint regarding the Services or to receive further information regarding use of the Services, please contact us at:</p>
 
 <p><strong>Freddy's Gift Exchange</strong><br>
-<a href="mailto:support@freddymcode.com">support@freddymcode.com</a><br>
+<a href="mailto:freddymontanojr@gmail.com">freddymontanojr@gmail.com</a><br>
 <a href="https://www.freddymcode.com">https://www.freddymcode.com</a></p>
 
 
