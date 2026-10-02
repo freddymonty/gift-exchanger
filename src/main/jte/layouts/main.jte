@@ -106,8 +106,7 @@
         <!-- Hamburger button -->
         <button class="btn btn-outline-dark me-2 " id="toggleSidebar">&#9776;</button>
         <div class="title">
-            <img src="images/logo.png" height="40">
-            <a href="home">Gift Exchange</a>
+            <a href="home">Freddy's Gift Exchange</a>
         </div>
         <div class="profile">
             <a href="profile"><i class="bi bi-person-circle text-dark" ></i></a>
